@@ -16,7 +16,7 @@ phases:
       - ls -lrta
       - cd $CODEBUILD_SRC_DIR
       - ls -lrta 
-      - cd $CODEBUILD_SRC_DIR/infra/terraform/environments/dev
+      - cd $CODEBUILD_SRC_DIR/environments/dev
       - ls -lrt 
       - pwd
       - echo "Configuring AWS credentials"
