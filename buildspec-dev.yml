@@ -1,0 +1,44 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: corretto8
+    commands:
+      - echo "Installing jq..."
+      # - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
+      - curl -qL -o jq https://github.com/jqlang/jq/releases/download/jq-1.6/jq-linux64 && chmod +x ./jq
+      - echo Executing Terraform phase
+      - wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
+      - unzip terraform_1.5.7_linux_amd64.zip
+      - ls -lrt
+      - mv terraform /bin
+      - terraform -v
+      - ls -lrta
+      - cd $CODEBUILD_SRC_DIR
+      - ls -lrta 
+      - cd $CODEBUILD_SRC_DIR/infra/terraform/environments/dev
+      - ls -lrt 
+      - pwd
+      - echo "Configuring AWS credentials"
+      - aws sts get-caller-identity  
+      - terraform -v
+      #- terraform init -upgrade 
+      #- terraform fmt 
+      #- terraform validate
+      #- terraform 0.12upgrade -yes
+      #- terraform -v
+      #- -verify-plugins=false
+      - pwd
+  build:
+    commands:
+      - echo Executing build phase
+      - ls -lt $CODEBUILD_SRC_DIR
+      - pwd
+      - ls -lt
+      - terraform init 
+      - terraform plan -target=module.c3ops_prod -lock=false 
+      - terraform apply -auto-approve -target=module.c3ops_prod -lock=false 
+      
+  post_build:
+    commands:
+      - echo post build phase
