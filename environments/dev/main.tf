@@ -32,7 +32,8 @@ data "terraform_remote_state" "shared_services_account" {
 }
 
 module "c3ops_prod" {
-  source = "/Users/ck/repos/c3ops-portal-terraform/modules/c3ops/"
+  source = "../../modules/c3ops/"
+    #source = "/Users/ck/repos/c3ops-portal-terraform/modules/c3ops/"
 
   # App Instance Inputs
   c3ops_vpc_id          = data.terraform_remote_state.shared_services_account.outputs.cb_shared_services_vpc.vpc_id
